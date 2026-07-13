@@ -574,10 +574,10 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
   .nav-links a:hover{color:var(--text);}
   .nav-cta{
     font-size:13.5px; font-weight:600; padding:9px 18px;
-    border:1px solid var(--border); border-radius:999px;
-    transition:all .2s; white-space:nowrap;
+    border:1px solid #2effb0; border-radius:999px;
+    background:#2effb0; color:#04140F; transition:all .2s; white-space:nowrap;
   }
-  .nav-cta:hover{border-color:var(--accent); color:var(--accent);}
+  .nav-cta:hover{border-color:#2effb0; background:transparent; color:#2effb0;}
   .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px;}
   .nav-toggle span{width:20px; height:2px; background:var(--text);}
   .mobile-menu{display:none; flex-direction:column; padding:8px 24px 20px; gap:16px; border-top:1px solid var(--border-soft);}
@@ -637,7 +637,7 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
   @keyframes scroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
 
   /* ---------- SECTION SHARED ---------- */
-  section{padding:20px 0 24px;}
+  section{padding:20px 0 24px; scroll-margin-top:96px;}
   #expertise{padding:48px 0 64px;}
   #skills{padding:40px 0 24px;}
   #credentials{padding:40px 0 24px;}
@@ -777,20 +777,20 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
   <nav class="wrap">
     <div class="logo" bis_skin_checked="1"><span class="dot"></span>Hoa Tran</div>
     <div class="nav-links" bis_skin_checked="1">
-      <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#about">About</a>
-      <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#expertise">Expertise</a>
-      <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#work">Case Studies</a>
-      <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#credentials">Credentials</a>
+      <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#work">Case Studies</a>
+      <a href="#credentials">Credentials</a>
     </div>
-    <a href="mailto:hoatt.business@gmail.com" class="nav-cta">Get in touch</a>
+    <a href="#contact" class="nav-cta">Get in touch</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </nav>
   <div class="mobile-menu" id="mobileMenu" bis_skin_checked="1">
-    <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#about">About</a>
-    <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#expertise">Expertise</a>
-    <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#work">Case Studies</a>
-    <a href="http://127.0.0.1:5500/hoa-tran-portfolio.html#credentials">Credentials</a>
-    <a href="mailto:hoatt.business@gmail.com">Get in touch</a>
+    <a href="#about">About</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#work">Case Studies</a>
+    <a href="#credentials">Credentials</a>
+    <a href="#contact">Get in touch</a>
   </div>
 </header>
 
@@ -1020,7 +1020,7 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
   </section>
 
   <section class="wrap">
-    <div class="contact-box reveal" bis_skin_checked="1">
+    <div id="contact" class="contact-box reveal" bis_skin_checked="1">
       <div class="eyebrow" style="justify-content:center; display:flex;" bis_skin_checked="1">Let's talk growth</div>
       <h2>Looking for a growth marketing leader who can build the function from zero?</h2>
       <p>Open to B2B Marketing Leadership &amp; Growth Marketing roles, remote or Hanoi-based.</p>
