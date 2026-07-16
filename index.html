@@ -726,6 +726,13 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
   .cred-row:last-child{border-bottom:none;}
   .cred-row .name{color:var(--text); font-weight:500;}
   .cred-row .meta{color:var(--text-faint); font-size:13px; text-align:right;}
+  
+  /* ---------- BADGES ---------- */
+  .badges-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-bottom:24px;}
+  .badge-item{display:flex; flex-direction:column; align-items:center; text-align:center;}
+  .badge-image{width:120px; height:120px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;}
+  .badge-image img{width:100%; height:100%; object-fit:contain;}
+  .badge-label{font-size:14px; font-weight:500; color:var(--text); line-height:1.4;}
 
   /* ---------- CONTACT ---------- */
   .contact-box{
@@ -759,6 +766,7 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
     .case-col{border-right:none; border-bottom:1px solid var(--border-soft);}
     .skills-grid{grid-template-columns:1fr;}
     .cred-grid{grid-template-columns:1fr;}
+    .badges-grid{grid-template-columns:repeat(2,1fr);}
     .contact-box{padding:44px 24px;}
   }
 </style>
@@ -1004,11 +1012,32 @@ plasmo-csui#ff-overlay-container, plasmo-csui#real-time-panel {
     <div class="cred-grid reveal" bis_skin_checked="1">
       <div class="cred-card" bis_skin_checked="1">
         <h3>Certifications</h3>
-        <div class="cred-row" bis_skin_checked="1"><span class="name">Google App Ads Search</span></div>
-        <div class="cred-row" bis_skin_checked="1"><span class="name">Google Analytics</span></div>
-        <div class="cred-row" bis_skin_checked="1"><span class="name">Google Play Store Listing</span></div>
-        <div class="cred-row" bis_skin_checked="1"><span class="name">Klaviyo Product</span></div>
-        <div class="cred-row" bis_skin_checked="1"><span class="name">Klaviyo Deliverability</span></div>
+        <div class="badges-grid" bis_skin_checked="1">
+          <div class="badge-item" bis_skin_checked="1">
+            <div class="badge-image" bis_skin_checked="1">
+              <img src="assets/badges/google-ads-search.png" alt="Google Ads Search Professional" />
+            </div>
+            <div class="badge-label">Google Ads Search</div>
+          </div>
+          <div class="badge-item" bis_skin_checked="1">
+            <div class="badge-image" bis_skin_checked="1">
+              <img src="assets/badges/google-analytics.webp" alt="Google Analytics Certified" />
+            </div>
+            <div class="badge-label">Google Analytics</div>
+          </div>
+          <div class="badge-item" bis_skin_checked="1">
+            <div class="badge-image" bis_skin_checked="1">
+              <img src="assets/badges/klaviyo-product.webp" alt="Klaviyo Product Certificate" />
+            </div>
+            <div class="badge-label">Klaviyo Product</div>
+          </div>
+          <div class="badge-item" bis_skin_checked="1">
+            <div class="badge-image" bis_skin_checked="1">
+              <img src="assets/badges/klaviyo-deliverability.png" alt="Klaviyo Deliverability Certificate" />
+            </div>
+            <div class="badge-label">Klaviyo Deliverability</div>
+          </div>
+        </div>
       </div>
       <div class="cred-card" bis_skin_checked="1">
         <h3>Education &amp; Development</h3>
