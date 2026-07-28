@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC Studios - Email & CRM Performance</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F5F5;
+    --card:#FFFFFF;
+    --border:#ECECEA;
+    --ink:#0A0A0A;
+    --label:#9A9A94;
+    --muted:#8F8F89;
+    --body:#5C5C58;
+    --faint:#B5B5B0;
+    --accent:#2EFFB0;
+    --accent-ink:#0A0A0A;
+    --green:#0E7C4A;
+    --red:#C1443C;
+    --track:#EFEFED;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Plus Jakarta Sans","Plus Jakarta Sans Fallback",ui-sans-serif,system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding:56px 24px 96px;}
+
+  /* ---------- Masthead ---------- */
+  .eyebrow{
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--label);font-weight:600;
+  }
+  .page-title{
+    font-size:36px;line-height:1.15;font-weight:600;color:var(--ink);
+    margin:6px 0 20px;letter-spacing:-0.01em;
+  }
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    border:1px solid var(--border);border-radius:999px;
+    padding:7px 16px;font-size:13px;color:var(--body);
+    background:#fff;
+  }
+  .pillrow{display:flex;flex-wrap:wrap;gap:10px;padding-bottom:28px;border-bottom:1px solid var(--border);margin-bottom:36px;}
+  .section-nav{display:flex;flex-wrap:wrap;gap:8px;margin:-20px 0 36px;}
+  .section-nav a{
+    display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:999px;
+    padding:7px 12px;background:var(--card);color:var(--body);font-size:12px;font-weight:500;
+    text-decoration:none;transition:border-color .2s ease,color .2s ease,background .2s ease;
+  }
+  .section-nav a:hover,.section-nav a:focus-visible{border-color:var(--ink);background:var(--ink);color:#fff;outline:none;}
+  .audit-content{display:flex;flex-direction:column;}
+  .audit-section{display:flow-root;}
+  .section-business{order:1;}
+  .section-web{order:2;}
+  .section-channel{order:3;}
+  .section-flow-audit{order:4;}
+  .section-flow-funnel{order:5;}
+  .section-popup{order:6;}
+  .section-newsletter{order:7;}
+  .section-technical{order:8;}
+  .section-timeline{order:9;}
+  .section-notes{order:10;}
+  .section-glossary{order:11;}
+
+  /* ---------- Section headers ---------- */
+  .section-title{
+    font-size:19px;font-weight:600;color:var(--ink);
+    margin:48px 0 16px;letter-spacing:-0.01em;
+  }
+  .section-title.first{margin-top:0;}
+  .section-sub{font-size:13px;color:var(--muted);margin:-10px 0 20px;}
+
+  /* ---------- Cards ---------- */
+  .card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:18px;padding:22px 24px;
+  }
+  .grid{display:grid;gap:16px;}
+  .grid-4{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .grid-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .grid-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .glossary-grid{gap:24px;align-items:stretch;}
+  .glossary-grid>div{display:flex;flex-direction:column;gap:10px;}
+  @media (max-width:900px){
+    .grid-4{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .grid-3{grid-template-columns:repeat(1,minmax(0,1fr));}
+    .grid-2{grid-template-columns:repeat(1,minmax(0,1fr));}
+  }
+
+  /* ---------- KPI card ---------- */
+  .kpi-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--label);font-weight:600;}
+  .kpi-value{font-size:28px;font-weight:600;color:var(--ink);margin:12px 0 16px;letter-spacing:-0.01em;}
+  .kpi-compare{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:5px 0;border-top:1px solid var(--border);}
+  .kpi-compare:first-of-type{border-top:none;padding-top:0;}
+  .kpi-compare .val{font-weight:600;}
+  .pos{color:var(--green);}
+  .neg{color:var(--red);}
+  .flat{color:var(--faint);}
+
+  .bar-track{height:6px;border-radius:999px;background:var(--track);overflow:hidden;margin:14px 0 4px;}
+  .bar-fill{height:100%;background:var(--accent);border-radius:999px;}
+  .bar-fill.dark{background:var(--ink);}
+  .bar-split{display:flex;justify-content:space-between;font-size:12px;color:var(--body);margin-top:8px;}
+
+  /* ---------- Donut ---------- */
+  .donut-wrap{display:flex;align-items:center;justify-content:space-between;height:100%;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--body);margin-bottom:10px;}
+  .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+
+  /* ---------- Funnel ---------- */
+  .funnel-col-title{font-size:13px;font-weight:600;color:var(--green);margin-bottom:16px;}
+  .funnel-step{margin-bottom:14px;}
+  .funnel-step-label{font-size:12px;color:var(--body);margin-bottom:6px;}
+  .funnel-row{display:flex;align-items:center;gap:10px;}
+  .funnel-track{flex:1;height:32px;background:var(--track);border-radius:8px;overflow:hidden;}
+  .funnel-fill{
+    height:100%;background:var(--ink);border-radius:8px;
+    min-width:3px;box-sizing:border-box;transition:width .2s ease;
+  }
+  .funnel-fill.win{background:var(--accent);}
+  .funnel-value{font-size:13.5px;font-weight:600;color:var(--ink);width:72px;min-width:72px;text-align:right;white-space:nowrap;flex:0 0 72px;}
+
+  /* ---------- Table ---------- */
+  table.data-table{width:100%;border-collapse:collapse;}
+  .data-table thead th{
+    text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--label);font-weight:600;padding:0 0 14px;
+  }
+  .data-table thead th.num{text-align:right;}
+  .data-table tbody td{
+    padding:14px 0;font-size:14px;color:var(--ink);
+    border-top:1px solid var(--border);vertical-align:middle;
+  }
+  .data-table tbody td.num{text-align:right;color:var(--body);}
+  .data-table tbody tr:first-child td{border-top:none;}
+  .src-name{font-weight:500;color:var(--ink);}
+  .row-track{display:flex;align-items:center;gap:10px;}
+  .row-track .bar-track{flex:1;margin:0;width:120px;}
+  .placeholder{color:var(--faint);font-style:italic;}
+  .flow-revenue-breakdown{font-style:normal;}
+  .flow-revenue-breakdown .placeholder{font-style:normal;}
+
+  /* ---------- Metric mini-tables (like Page Type Performance) ---------- */
+  .metric-table{width:100%;border-collapse:collapse;}
+  .metric-table thead th{
+    text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--label);font-weight:600;padding:0 0 12px;
+  }
+  .metric-table thead th:not(:first-child){text-align:right;}
+  .metric-table thead th:nth-child(2){text-align:left;}
+  .metric-table tbody td{padding:12px 0;font-size:14px;border-top:1px solid var(--border);}
+  .metric-table tbody td:not(:first-child){text-align:right;color:var(--body);}
+  .metric-table tbody td:nth-child(2){text-align:left;color:var(--body);}
+  .metric-table tbody td:first-child{color:var(--ink);}
+  .metric-table tbody tr:first-child td{border-top:none;}
+  .card-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:18px;}
+
+  /* ---------- Check / cross marks ---------- */
+  .mark{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:6px;font-size:12px;font-weight:700;}
+  .mark.yes{background:rgba(46,255,176,0.18);color:var(--green);}
+  .mark.no{background:rgba(193,68,60,0.1);color:var(--red);}
+  .mark.dash{color:var(--faint);}
+
+  /* ---------- Notes lists (exact spec) ---------- */
+  .notes-list{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:8px;list-style:disc;}
+  .notes-list li{margin:0;padding:0;line-height:1.6;list-style:disc;}
+  .notes-heading{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--label);font-weight:600;margin-bottom:14px;}
+
+  /* ---------- Glossary ---------- */
+  .gloss-term{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .gloss-def{font-size:13px;color:var(--body);line-height:1.5;}
+
+  /* ---------- Final timeline ---------- */
+  .timeline-list{position:relative;display:grid;gap:0;}
+  .timeline-list::before{
+    content:"";position:absolute;left:27px;top:28px;bottom:28px;width:1px;background:var(--border);
+  }
+  .timeline-item{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;padding:10px 0;}
+  .timeline-step{
+    position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:56px;height:56px;
+    border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700;
+  }
+  .timeline-content{padding:18px 20px;border:1px solid var(--border);border-radius:14px;background:#FAFAF9;}
+  .timeline-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
+  .timeline-priority{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--ink);white-space:nowrap;}
+  .timeline-owner{padding:4px 9px;border:1px solid var(--border);border-radius:999px;background:#fff;color:var(--body);font-size:11px;font-weight:600;white-space:nowrap;}
+  .timeline-task{font-size:15px;font-weight:600;line-height:1.45;color:var(--ink);}
+  .timeline-outcome{margin-top:7px;font-size:13px;line-height:1.55;color:var(--body);}
+  .timeline-outcome strong{color:var(--ink);font-weight:600;}
+  @media (max-width:600px){
+    .timeline-list::before{left:23px;}
+    .timeline-item{grid-template-columns:48px minmax(0,1fr);gap:12px;}
+    .timeline-step{width:48px;height:48px;font-size:13px;}
+    .timeline-content{padding:16px;}
+  }
+
+  .callout{
+    border:1px dashed var(--border);border-radius:14px;padding:16px 18px;
+    font-size:13px;color:var(--muted);background:#FAFAF9;
+  }
+  .footer-note{font-size:12px;color:var(--faint);margin-top:64px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ MASTHEAD ============ -->
+  <div class="eyebrow">METRICMAX - EMAIL PERFORMANCE OVERVIEW</div>
+  <div class="page-title">SC Studios - Email &amp; CRM performance</div>
+  <div class="pillrow">
+    <span class="pill">Jan 1 – Jun 30, 2026</span>
+    <span class="pill">Source: Klaviyo</span>
+    <span class="pill">Currency: VND (₫)</span>
+  </div>
+  <nav class="section-nav" aria-label="Audit sections">
+    <a href="#business-kpis">Business KPIs</a>
+    <a href="#channel-kpis">Channel KPIs</a>
+    <a href="#flow-audit">Flow Audit</a>
+    <a href="#technical-health">Technical Health</a>
+    <a href="#final-timeline">Timeline</a>
+    <a href="#data-notes">Notes</a>
+    <a href="#glossary">Glossary</a>
+  </nav>
+  <main class="audit-content">
+
+  <!-- ============ KEY BUSINESS KPIs ============ -->
+  <section class="audit-section section-business">
+  <div class="section-title first" id="business-kpis">Key Business KPIs</div>
+  <div class="grid grid-4">
+
+    <div class="card">
+      <div class="kpi-label">Total Subscribers</div>
+      <div class="kpi-value">332</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val pos">+53.7%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value">₫136.569.645</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val pos">+388.5%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Transactions</div>
+      <div class="kpi-value">35</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val pos">+288.9%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Revenue Share</div>
+      <div class="kpi-value">43.82%</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val pos">+139.85%</span></div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-4" style="margin-top:16px;">
+
+    <div class="card">
+      <div class="kpi-label">Klaviyo-sourced CVR</div>
+      <div class="kpi-value">1.82%</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val neg">-45.8%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">AOV</div>
+      <div class="kpi-value">₫3.901.990</div>
+      <div class="kpi-compare"><span>vs FY25 total</span><span class="val pos">+25.6%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">List Health</div>
+      <div class="kpi-value">94.88% <span style="font-size:14px;font-weight:500;color:var(--muted);">active</span></div>
+      <div class="kpi-compare"><span>Active - vs FY25 total</span><span class="val neg">-3.3%</span></div>
+      <div class="kpi-compare"><span>Suppressed - vs FY25 total</span><span class="val neg">+176.5%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label" style="margin-bottom:14px;">Revenue Contribution</div>
+      <div class="donut-wrap">
+        <div>
+          <div class="legend-item"><span class="dot" style="background:var(--accent);"></span>Flows: 100%</div>
+          <div class="legend-item"><span class="dot" style="background:var(--ink);"></span>Campaigns: 0%</div>
+        </div>
+        <svg width="92" height="92" viewBox="0 0 92 92">
+          <circle cx="46" cy="46" r="36" fill="none" stroke="#EFEFED" stroke-width="12"/>
+          <circle cx="46" cy="46" r="36" fill="none" stroke="#2EFFB0" stroke-width="12"
+            stroke-dasharray="226.19 226.19" stroke-dashoffset="0" transform="rotate(-90 46 46)"/>
+        </svg>
+      </div>
+  
+    </div>
+
+  </div>
+
+  <div class="callout" style="margin-top:24px;margin-bottom:24px;">
+    <strong>Disclaimer:</strong> Data in this report is sourced from Klaviyo's native analytics. Revenue figures may differ from Shopify actuals due to attribution window differences (5-day click / 1-day open), order cancellations, and timezone offsets. Shopify remains the source of truth for net revenue.
+  </div>
+  </section>
+
+  <!-- ============ EMAIL-SOURCED PERFORMANCE ON WEBSITE ============ -->
+  <section class="audit-section section-web">
+  <div class="section-title" id="web-performance">Email-sourced Performance on Website</div>
+  <div class="grid grid-3">
+
+    <div class="card">
+      <div class="kpi-label">ATC Rate</div>
+      <div class="kpi-value">25.35%</div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">CVR</div>
+      <div class="kpi-value">9.41%</div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Complete Checkout</div>
+      <div class="kpi-value">27.77%</div>
+    </div>
+
+  </div>
+  </section>
+
+  <!-- ============ KEY CHANNEL KPIs ============ -->
+  <section class="audit-section section-channel">
+  <div class="section-title" id="channel-kpis">Key Channel KPIs</div>
+  <div class="grid grid-4">
+
+    <div class="card">
+      <div class="kpi-label">Total Sent</div>
+      <div class="kpi-value">1,781</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val pos">+540.3%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Delivery Rate</div>
+      <div class="kpi-value">98.88%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val pos">+2.48%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Open Rate</div>
+      <div class="kpi-value">16.87%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val neg">-17.79%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Click Rate</div>
+      <div class="kpi-value">4.15%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val neg">-30.49%</span></div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-4" style="margin-top:16px;">
+
+    <div class="card">
+      <div class="kpi-label">Click-to-Open Rate</div>
+      <div class="kpi-value">24.58%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val neg">-15.50%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Bounce Rate</div>
+      <div class="kpi-value">1.12%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val pos">-68.89%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Spam Complaint Rate</div>
+      <div class="kpi-value">0.00%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val flat">0.00%</span></div>
+    </div>
+
+    <div class="card">
+      <div class="kpi-label">Unsubscribe Rate</div>
+      <div class="kpi-value">0.45%</div>
+      <div class="kpi-compare"><span>vs 2025 total</span><span class="val neg">+20.64%</span></div>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">Why Emails Bounce</div>
+    <div class="bar-track" style="height:10px;overflow:hidden;display:flex;">
+      <div style="width:35%;background:var(--ink);"></div>
+      <div style="width:55%;background:var(--accent);"></div>
+      <div style="width:10%;background:var(--track);"></div>
+    </div>
+    <div class="bar-split">
+      <span>■ Invalid Address — 35%</span>
+      <span>■ Mailbox Unavailable — 55%</span>
+      <span>Other — 10%</span>
+    </div>
+  </div>
+
+  
+  <!-- ============ FLOW FUNNEL PERFORMANCE ============ -->
+  </section>
+  <section class="audit-section section-flow-funnel">
+  <div class="section-title" id="flow-funnel">Flow Funnel Performance</div>
+  <div class="card">
+    <div class="grid grid-3">
+
+      <div>
+        <div class="funnel-col-title">Welcome Flow</div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Sent</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:100%;"></div></div><span class="funnel-value">100.00%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Opened</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:31.1%;"></div></div><span class="funnel-value">31.10%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Clicked</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:13.2%;"></div></div><span class="funnel-value">13.20%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Converted</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill win" style="width:7.8%;"></div></div><span class="funnel-value">7.80%</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="funnel-col-title">Abandoned Cart Flow</div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Sent</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:100%;"></div></div><span class="funnel-value">100.00%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Opened</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:6.5%;"></div></div><span class="funnel-value">6.50%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Clicked</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:4.6%;"></div></div><span class="funnel-value">4.60%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Converted</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill win" style="width:1.2%;"></div></div><span class="funnel-value">1.20%</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="funnel-col-title">Similar Product Recommendation</div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Sent</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:100%;"></div></div><span class="funnel-value">100.00%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Opened</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:37.5%;"></div></div><span class="funnel-value">37.50%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Clicked</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill" style="width:20.2%;"></div></div><span class="funnel-value">20.20%</span></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Converted</div>
+          <div class="funnel-row"><div class="funnel-track"><div class="funnel-fill win" style="width:0%;"></div></div><span class="funnel-value">0.00%</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Flow revenue breakdown -->
+  <div class="card flow-revenue-breakdown" style="margin-top:16px;">
+    <div class="card-title">Flow Revenue Breakdown <span style="font-weight:400;color:var(--muted);"></span></div>
+    <table class="metric-table">
+      <thead>
+        <tr><th>Flow</th><th>Current Period</th><th>vs FY25 Total</th><th>FY25 Share</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Welcome Series - Standard</td>
+          <td>54.3%</td>
+          <td class="neg">-26.3%</td>
+          <td>80.6%</td>
+        </tr>
+        <tr>
+          <td>Abandoned Cart Reminder</td>
+          <td>45.7%</td>
+          <td style="color:#1C8A5C;font-style:normal;">45.7%</td>
+          <td class="placeholder">0%</td>
+        </tr>
+        <tr>
+          <td>20.10 Discount (EN-VN)</td>
+          <td class="placeholder">Not avail.</td>
+          <td class="placeholder">Not avail.</td>
+          <td>19.4%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout" style="margin-top:14px;">
+    100% of attributed revenue this period came from automated flows; 0% from one-off campaigns.
+  </div>
+  </section>
+
+  <!-- ============ TECHNICAL HEALTH CHECK ============ -->
+  <section class="audit-section section-technical">
+  <div class="section-title" id="technical-health">Technical Health Check</div>
+  <div class="card">
+    <div class="card-title">Domain Breakdown</div>
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;gap:20px;margin-bottom:20px;font-size:13px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:16px;height:16px;background:#9A9A94;border-radius:4px;"></div>
+          <span>Recipients</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:16px;height:16px;background:#2B7FFF;border-radius:4px;"></div>
+          <span>Opens</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:16px;height:16px;background:#FF6B35;border-radius:4px;"></div>
+          <span>Clicks</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:32px;">
+      <div style="flex:1;">
+        <svg width="100%" height="300" viewBox="0 0 800 300">
+          <!-- Y-axis labels -->
+          <text x="30" y="30" font-size="12" fill="#9A9A94" text-anchor="end">1,600</text>
+          <text x="30" y="75" font-size="12" fill="#9A9A94" text-anchor="end">1,200</text>
+          <text x="30" y="120" font-size="12" fill="#9A9A94" text-anchor="end">800</text>
+          <text x="30" y="165" font-size="12" fill="#9A9A94" text-anchor="end">400</text>
+          <text x="30" y="250" font-size="12" fill="#9A9A94" text-anchor="end">0</text>
+          
+          <!-- Grid lines -->
+          <line x1="40" y1="30" x2="780" y2="30" stroke="#EFEFED" stroke-width="1"/>
+          <line x1="40" y1="75" x2="780" y2="75" stroke="#EFEFED" stroke-width="1"/>
+          <line x1="40" y1="120" x2="780" y2="120" stroke="#EFEFED" stroke-width="1"/>
+          <line x1="40" y1="165" x2="780" y2="165" stroke="#EFEFED" stroke-width="1"/>
+          <line x1="40" y1="250" x2="780" y2="250" stroke="#EFEFED" stroke-width="1"/>
+          
+          <!-- Axes -->
+          <line x1="40" y1="30" x2="40" y2="250" stroke="#ECECEA" stroke-width="2"/>
+          <line x1="40" y1="250" x2="780" y2="250" stroke="#ECECEA" stroke-width="2"/>
+          
+          <!-- Gmail.com bars (1537, 262, 70) -->
+          <g>
+            <rect x="55" y="39" width="16" height="211" fill="#9A9A94" rx="2"/>
+            <rect x="73" y="214" width="16" height="36" fill="#2B7FFF" rx="2"/>
+            <rect x="91" y="240" width="16" height="10" fill="#FF6B35" rx="2"/>
+            <text x="73" y="270" font-size="12" fill="#5C5C58" text-anchor="middle">gmail.com</text>
+          </g>
+          
+          <!-- Hotmail.com bars (71, 12, 0) -->
+          <g>
+            <rect x="155" y="240" width="16" height="10" fill="#9A9A94" rx="2"/>
+            <rect x="173" y="248" width="16" height="2" fill="#2B7FFF" rx="2"/>
+            <rect x="191" y="250" width="16" height="0" fill="#FF6B35" rx="2"/>
+            <text x="173" y="270" font-size="12" fill="#5C5C58" text-anchor="middle">hotmail.com</text>
+          </g>
+          
+          <!-- NYU.edu bars (46, 1, 0) -->
+          <g>
+            <rect x="255" y="244" width="16" height="6" fill="#9A9A94" rx="2"/>
+            <rect x="273" y="250" width="16" height="0" fill="#2B7FFF" rx="2"/>
+            <rect x="291" y="250" width="16" height="0" fill="#FF6B35" rx="2"/>
+            <text x="273" y="270" font-size="12" fill="#5C5C58" text-anchor="middle">nyu.edu</text>
+          </g>
+          
+          <!-- Yahoo.com bars (33, 12, 2) -->
+          <g>
+            <rect x="355" y="246" width="16" height="4" fill="#9A9A94" rx="2"/>
+            <rect x="373" y="248" width="16" height="2" fill="#2B7FFF" rx="2"/>
+            <rect x="391" y="250" width="16" height="0" fill="#FF6B35" rx="2"/>
+            <text x="373" y="270" font-size="12" fill="#5C5C58" text-anchor="middle">yahoo.com</text>
+          </g>
+          
+          <!-- iCloud.com bars (30, 3, 0) -->
+          <g>
+            <rect x="455" y="246" width="16" height="4" fill="#9A9A94" rx="2"/>
+            <rect x="473" y="250" width="16" height="0" fill="#2B7FFF" rx="2"/>
+            <rect x="491" y="250" width="16" height="0" fill="#FF6B35" rx="2"/>
+            <text x="473" y="270" font-size="12" fill="#5C5C58" text-anchor="middle">icloud.com</text>
+          </g>
+        </svg>
+      </div>
+      <div style="flex:0 0 280px;">
+        <table class="metric-table" style="width:100%;">
+          <thead>
+            <tr><th>Domain</th><th style="text-align:right;">Recipients</th><th style="text-align:right;">Opens</th><th style="text-align:right;">Clicks</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>gmail.com</td><td style="text-align:right;">1,537</td><td style="text-align:right;">262</td><td style="text-align:right;">70</td></tr>
+            <tr><td>hotmail.com</td><td style="text-align:right;">71</td><td style="text-align:right;">12</td><td style="text-align:right;">0</td></tr>
+            <tr><td>nyu.edu</td><td style="text-align:right;">46</td><td style="text-align:right;">1</td><td style="text-align:right;">0</td></tr>
+            <tr><td>yahoo.com</td><td style="text-align:right;">33</td><td style="text-align:right;">12</td><td style="text-align:right;">2</td></tr>
+            <tr><td>icloud.com</td><td style="text-align:right;">30</td><td style="text-align:right;">3</td><td style="text-align:right;">0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px;">
+    <table class="metric-table">
+      <thead><tr><th>Element</th><th>Definition</th><th>Available</th></tr></thead>
+      <tbody>
+        <tr><td>SPF setting</td><td>Verifies which servers are authorized to send emails on your domain's behalf.</td><td style="text-align:right;"><span class="mark no">✗</span></td></tr>
+        <tr><td>Sending IP</td><td>The unique address your emails are sent from.</td><td style="text-align:right;"><span class="mark no">✗</span></td></tr>
+        <tr><td>Sending domain</td><td>Your brand's dedicated email address that builds sender reputation over time.</td><td style="text-align:right;"><span class="mark no">✗</span></td></tr>
+        <tr><td>DKIM &amp; DMARC setup</td><td>Digital signatures that prove your emails are legitimate and haven't been tampered with.</td><td style="text-align:right;"><span class="mark no">✗</span></td></tr>
+        <tr><td>Spam report</td><td>A record of recipients who flagged your email as spam - high rates signal inbox providers to block future sends.</td><td style="text-align:right;"><span class="mark no">✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  </section>
+
+  <!-- ============ FLOW COVERAGE AUDIT ============ -->
+  <section class="audit-section section-flow-audit">
+  <div class="section-title" id="flow-audit">Flow Coverage Audit</div>
+  <div class="card">
+    <table class="metric-table">
+      <thead><tr><th>Flow</th><th>Definition</th><th>Exists</th><th>Active</th></tr></thead>
+      <tbody>
+        <tr><td>Welcome</td><td>Triggered on signup; sets brand tone and drives first purchase.</td><td style="text-align:right;"><span class="mark yes">✓</span></td><td style="text-align:right;"><span class="mark yes">✓</span></td></tr>
+        <tr><td>Browse Abandonment</td><td>Re-engages visitors who viewed a product but didn't add to cart.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Cart</td><td>Recovers sessions where items were added to cart but not purchased.</td><td style="text-align:right;"><span class="mark yes">✓</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Checkout Abandonment</td><td>Targets highest-intent drop-offs, initiated checkout but didn't complete.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Similar Product</td><td>Sent after order confirmation; nurtures repeat purchase and loyalty.</td><td style="text-align:right;"><span class="mark yes">✓</span></td><td style="text-align:right;"><span class="mark yes">✓</span></td></tr>
+        <tr><td>Winback</td><td>Re-activates lapsed customers who haven't purchased in 60–90 days.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Sunset</td><td>Removes unengaged contacts to protect list health and deliverability.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Birthday</td><td>Sends a personalized offer on the subscriber's birthday to boost loyalty.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Back in Stock</td><td>Alerts subscribers when a previously out-of-stock item is available again.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+        <tr><td>Price Drop</td><td>Notifies customers when a product they viewed drops in price.</td><td style="text-align:right;"><span class="mark dash">—</span></td><td style="text-align:right;"><span class="mark dash">—</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  </section>
+
+  <!-- ============ POP-UP FORM PERFORMANCE ============ -->
+  <section class="audit-section section-popup">
+  <div class="section-title" id="popup-form">Pop-up Form Performance</div>
+  <div class="card">
+    <table class="metric-table">
+      <thead><tr><th>Metric</th><th>All</th><th>Mobile</th><th>Desktop</th></tr></thead>
+      <tbody>
+        <tr><td>Total Revenue</td><td>₫110.000.000</td><td>₫91.000.000</td><td>₫19.000.000</td></tr>
+        <tr><td>Form View</td><td>33.200</td><td>28.000</td><td>5.200</td></tr>
+        <tr><td>Impression-to-Submit Rate</td><td>1.09%</td><td>1.16%</td><td>0.71%</td></tr>
+        <tr><td>Submit-to-Order Rate</td><td>21.50%</td><td>27.00%</td><td>16.00%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </section>
+  <section class="audit-section section-newsletter">
+  <div class="section-title" id="newsletter-footer">Newsletter Footer Performance</div>
+  <div class="card">
+    <table class="metric-table">
+      <thead><tr><th>Metric</th><th>All</th><th>Mobile</th><th>Desktop</th></tr></thead>
+      <tbody>
+        <tr><td>Total Revenue</td><td>₫13.200.000</td><td>₫8.500.000</td><td>₫4.700.000</td></tr>
+        <tr><td>Form View</td><td>39.200</td><td>30.000</td><td>9.200</td></tr>
+        <tr><td>Impression-to-Submit Rate</td><td>0.12%</td><td>0.12%</td><td>0.12%</td></tr>
+        <tr><td>Submit-to-Order Rate</td><td>13.04%</td><td>8.6%</td><td>27.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </section>
+
+  <!-- ============ DATA NOTES ============ -->
+  <section class="audit-section section-notes">
+  <div class="section-title" id="data-notes">Data Notes</div>
+  <div class="card">
+    <div class="grid grid-2">
+      <div>
+        <div class="notes-heading">Data Notes</div>
+        <ul class="list-none flex flex-col gap-2 text-sm text-[#5C5C58] notes-list">
+          <li>Currency: All revenue figures are displayed in Vietnamese Dong (VND ₫).</li>
+          <li>Attribution window used: 5-day email open / 5-day click - need to sync later with Shopify/GA4 window to avoid data discrepancy.</li>
+          <li>"Not tracked yet" indicates that data collection is not configured in Klaviyo/Shopify native reporting.</li>
+          <li>RFM / segmentation-level breakdowns planned for next reporting cycle, once Phase 0 segmentation work is live.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="notes-heading">Tracking Status</div>
+        <ul class="list-none flex flex-col gap-2 text-sm text-[#5C5C58] notes-list">
+          <li>Repeat purchase cycle length - Not available yet (pending calculation)</li>
+          <li>Segmentation performance - Not available yet</li>
+          <li>SMS-to-email bridge - Not tracked yet</li>
+          <li>Loyalty program tie-in - Not tracked yet (launching next quarter)</li>
+          <li>Win-back flow - Not implemented</li>
+          <li>Device Performance - Not supported</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ============ METRIC GLOSSARY ============ -->
+  <section class="audit-section section-glossary">
+  <div class="section-title" id="glossary">Metric Glossary</div>
+  <div class="card">
+    <div class="grid grid-3 glossary-grid">
+      <div>
+        <div class="gloss-term">Email CVR</div>
+        <div class="gloss-def">Attributed orders divided by email sessions/clicks.</div>
+      </div>
+      <div>
+        <div class="gloss-term">Deliverability Rate</div>
+        <div class="gloss-def">Emails delivered divided by emails sent (inbox + spam, excluding bounces).</div>
+      </div>
+      <div>
+        <div class="gloss-term">FY25</div>
+        <div class="gloss-def">Full year 2025.</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ============ FINAL TIMELINE ============ -->
+  <section class="audit-section section-timeline">
+  <div class="section-title" id="final-timeline">Final Timeline</div>
+  <div class="section-sub">Prioritised actions to strengthen deliverability, flow performance, and campaign readiness.</div>
+  <div class="card">
+    <div class="timeline-list">
+      <article class="timeline-item">
+        <div class="timeline-step">01</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★★★ &nbsp; CRITICAL</span><span class="timeline-owner">PIC · Dev</span></div><div class="timeline-task">Set up SPF, DKIM, DMARC, and Google Postmaster.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Complete email authentication and enable accurate inbox reputation monitoring beyond delivery rate.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">02</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★★★ &nbsp; CRITICAL</span><span class="timeline-owner">PIC · MM</span></div><div class="timeline-task">Audit and optimize the Welcome Flow: subject lines, CTA, and first-email timing.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Improve new-subscriber open rates and shorten the subscriber warm-up period.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">03</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★★★ &nbsp; CRITICAL</span><span class="timeline-owner">PIC · MM</span></div><div class="timeline-task">Build a segmentation framework for engaged, new subscribers, customers, and inactive contacts.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Classify the existing ~500 subscribers so campaigns reach high-engagement audiences, improving open and click rates from the first campaign.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">04</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★★☆ &nbsp; HIGH</span><span class="timeline-owner">PIC · MM</span></div><div class="timeline-task">Review and optimize the Abandoned Cart Flow.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Improve the performance of the highest-intent revenue flow and unlock quick revenue gains.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">05</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★★☆ &nbsp; HIGH</span><span class="timeline-owner">PIC · MM</span></div><div class="timeline-task">Launch one email campaign after segmentation is completed.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Generate campaign-attributed revenue, currently 0%, and reduce reliance on automated flows alone.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">06</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★☆☆ &nbsp; MEDIUM</span><span class="timeline-owner">PIC · MM + Dev</span></div><div class="timeline-task">Review email templates: CTA, mobile responsiveness, and Outlook/Apple Mail rendering.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Improve click rate and ensure consistent rendering across major email clients.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">07</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★★☆☆ &nbsp; MEDIUM</span><span class="timeline-owner">PIC · MM + Dev</span></div><div class="timeline-task">Redesign the Newsletter Footer: copy and incentive.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Increase subscriber acquisition from a high-traffic but low-converting signup source.</div></div>
+      </article>
+      <article class="timeline-item">
+        <div class="timeline-step">08</div>
+        <div class="timeline-content"><div class="timeline-meta"><span class="timeline-priority">★★☆☆☆ &nbsp; FOLLOW-UP</span><span class="timeline-owner">PIC · MM</span></div><div class="timeline-task">Conduct a performance review after two weeks.</div><div class="timeline-outcome"><strong>Expected outcome:</strong> Measure the impact of authentication and optimization efforts, then define priorities for the next iteration.</div></div>
+      </article>
+    </div>
+  </div>
+  </section>
+  </main>
+
+  <div class="footer-note">SC Studios — Email &amp; CRM Performance · Jan 1 – Jun 30, 2026 · Prepared via Klaviyo native reporting</div>
+
+</div>
+</body>
+</html>
